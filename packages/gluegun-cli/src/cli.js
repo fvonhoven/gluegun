@@ -11,6 +11,7 @@ async function run (argv) {
     .src(`${__dirname}`)
     // .plugin('~/Desktop/some-gluegun-plugin')
     .plugins('./node_modules', { matching: 'gluegun-*', hidden: true })
+    .commonCommands(['version'])
     .create()
 
   // and run it

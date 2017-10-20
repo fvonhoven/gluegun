@@ -1,5 +1,5 @@
 const Runtime = require('./runtime')
-const { dissoc, pipe, tryCatch, always } = require('ramda')
+const { dissoc, pipe, tryCatch, always, contains } = require('ramda')
 const { isBlank } = require('../utils/string-utils')
 const { isFile } = require('../utils/filesystem-utils')
 const jetpack = require('fs-jetpack')
@@ -52,6 +52,16 @@ class Builder {
     // set the rest of the properties
     runtime.events = this.events
 
+    // core plugins if desired
+    if (this.commonCommands) {
+      if (contains('help', this.commonCommands)) {
+        runtime.load(__dirname + '/../core-plugins/help')
+      }
+      if (contains('version', this.commonCommands)) {
+        runtime.load(__dirname + '/../core-plugins/version')
+      }
+    }
+
     // the plugins get loaded last
     this.loadPlugins.forEach(entry => {
       switch (entry.type) {
@@ -68,6 +78,11 @@ class Builder {
     })
 
     return runtime
+  }
+
+  commonCommands (commandsArray) {
+    this.commonCommands = commandsArray
+    return this
   }
 
   /**

@@ -13,7 +13,8 @@ const {
   is,
   reduce,
   sort,
-  pluck
+  pluck,
+  contains
 } = require('ramda')
 const { findByProp, isNilOrEmpty } = require('ramdasauce')
 const { isBlank } = require('../utils/string-utils')
